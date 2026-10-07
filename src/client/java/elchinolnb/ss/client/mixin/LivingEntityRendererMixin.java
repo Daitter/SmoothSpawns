@@ -1,5 +1,7 @@
 package elchinolnb.ss.client.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
 import elchinolnb.ss.client.SpawnAnimate;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -27,8 +29,17 @@ public abstract class LivingEntityRendererMixin {
 		((SpawnAnimate) state).smoothspawns$setScale(scale);
 	}
 
-	@Inject(method = "scale", at = @At("TAIL"))
-	private void smoothspawns$scale(LivingEntityRenderState state, PoseStack poseStack, CallbackInfo ci) {
+	@WrapOperation(
+			method = {"render", "submit"},
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/client/renderer/entity/LivingEntityRenderer;scale(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;)V"
+			)
+	)
+	private void smoothspawns$wrapScale(LivingEntityRenderer<?, ?, ?> instance,
+										LivingEntityRenderState state, PoseStack poseStack,
+										Operation<Void> original) {
+		original.call(instance, state, poseStack);
 		float s = ((SpawnAnimate) state).smoothspawns$getScale();
 		if (s != 1f) poseStack.scale(s, s, s);
 	}
