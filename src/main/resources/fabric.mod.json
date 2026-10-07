@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "smoothspawns",
+	"version": "${version}",
+	"name": "SmoothSpawns",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"ElChinoLNB"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/smoothspawns/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"elchinolnb.ss.SmoothSpawns"
+		],
+		"client": [
+			"elchinolnb.ss.client.SmoothSpawnsClient"
+		]
+	},
+	"mixins": [
+		"smoothspawns.mixins.json",
+		{
+			"config": "smoothspawns.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
